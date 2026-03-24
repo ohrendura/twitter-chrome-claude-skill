@@ -8,10 +8,26 @@ description: >
   "post something on X", "tweet this", "send a tweet", "check my Twitter", or any variation.
   This skill is FAST because it uses javascript_tool and find/read_page/form_input instead of
   slow screenshot loops. Always use this skill instead of screenshot-based browser automation
-  for Twitter/X tasks.
+  for Twitter/X tasks. IMPORTANT: This skill requires the Claude in Chrome browser extension.
+  If browser tools (tabs_context_mcp, javascript_tool, computer) are not available, stop and
+  tell the user to run this from the Claude in Chrome extension instead.
 ---
 
 # Twitter/X Chrome Automation (DOM-Only)
+
+## ⚠️ Prerequisites — Read First
+
+This skill **requires the Claude in Chrome extension** and access to browser tools (`tabs_context_mcp`, `javascript_tool`, `computer`, `navigate`).
+
+**Before doing anything else, check that these tools are available.**
+
+If they are NOT available (e.g. you're in claude.ai web chat without the extension), stop immediately and tell the user:
+
+> "This skill requires the **Claude in Chrome** extension to work — it needs direct access to your browser's DOM. Please open the Chrome extension while on x.com and run this request from there."
+
+Do not attempt to tweet, navigate, or simulate any browser action without these tools.
+
+---
 
 ## Philosophy
 
