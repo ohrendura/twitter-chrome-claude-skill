@@ -16,6 +16,8 @@ description: >
 
 # Twitter/X Chrome Automation (DOM-Only)
 
+> **Usage:** `/twitter-chrome "your tweet text here"` — that's it. If the text is explicit, it posts immediately with no confirmation.
+
 ## ⚠️ Prerequisites — Read First
 
 This skill requires **two things** to work:
@@ -59,7 +61,7 @@ Call 3: computer type             → type the tweet text
 Call 4: javascript_tool           → check length + click Post + verify toast
 ```
 
-After confirming tweet content with the user, execute all remaining calls without pausing.
+**No confirmation needed when tweet text is provided as an explicit argument.** Execute all calls back-to-back without pausing or asking. Only ask for confirmation if tweet content is vague or needs to be composed on the fly.
 
 ---
 
@@ -135,9 +137,12 @@ Another async IIFE that does everything:
   // textContent can return empty on X's nested span structure
   const editor = document.querySelector('[data-testid="tweetTextarea_0"]');
   const text = editor?.innerText || '';
-  const remaining = 280 - text.length;
+  // X shortens all URLs to 23 chars (t.co). Adjust count accordingly.
+  const urlRegex = /https?:\/\/\S+/g;
+  const adjustedLength = text.replace(urlRegex, 'x'.repeat(23)).length;
+  const remaining = 280 - adjustedLength;
 
-  if (remaining < 0) return JSON.stringify({ error: 'over_limit', length: text.length, remaining });
+  if (remaining < 0) return JSON.stringify({ error: 'over_limit', length: adjustedLength, remaining });
 
   // Click Post
   document.querySelector('[data-testid="tweetButton"]')?.click();
@@ -165,8 +170,7 @@ Another async IIFE that does everything:
 2. **Don't skip the polling loop in Call 2** — the compose dialog takes ~200-800ms to render
    after clicking the compose button. A fixed `wait` is fragile; polling is reliable.
 
-3. **Always confirm before posting** — show the user the tweet text and ask for approval
-   before executing Call 4.
+3. **Skip confirmation when text is explicit** — if the tweet was passed as a skill argument, post immediately. Only confirm if you composed the tweet yourself.
 
 4. **Character limit is 280** — if over, trim and re-type. Do not attempt to post.
 
