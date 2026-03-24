@@ -8,22 +8,26 @@ description: >
   "post something on X", "tweet this", "send a tweet", "check my Twitter", or any variation.
   This skill is FAST because it uses javascript_tool and find/read_page/form_input instead of
   slow screenshot loops. Always use this skill instead of screenshot-based browser automation
-  for Twitter/X tasks. IMPORTANT: This skill requires the Claude in Chrome browser extension.
-  If browser tools (tabs_context_mcp, javascript_tool, computer) are not available, stop and
-  tell the user to run this from the Claude in Chrome extension instead.
+  for Twitter/X tasks. IMPORTANT: This skill requires both the Claude Desktop app AND the
+  Claude in Chrome browser extension. If browser tools (tabs_context_mcp, javascript_tool,
+  computer) are not available, stop and tell the user to install Claude Desktop and the
+  Claude in Chrome extension before proceeding.
 ---
 
 # Twitter/X Chrome Automation (DOM-Only)
 
 ## ⚠️ Prerequisites — Read First
 
-This skill **requires the Claude in Chrome extension** and access to browser tools (`tabs_context_mcp`, `javascript_tool`, `computer`, `navigate`).
+This skill requires **two things** to work:
 
-**Before doing anything else, check that these tools are available.**
+1. **Claude Desktop app** — the skill must be run from Claude Desktop (not claude.ai web chat), as skills and local tool access are only available there.
+2. **Claude in Chrome extension** — must be installed and active in Chrome, providing browser tools (`tabs_context_mcp`, `javascript_tool`, `computer`, `navigate`) that allow Claude to interact with the browser DOM.
 
-If they are NOT available (e.g. you're in claude.ai web chat without the extension), stop immediately and tell the user:
+**Before doing anything else, check that both conditions are met.**
 
-> "This skill requires the **Claude in Chrome** extension to work — it needs direct access to your browser's DOM. Please open the Chrome extension while on x.com and run this request from there."
+If browser tools are NOT available, stop immediately and tell the user:
+
+> "This skill requires two things: the **Claude Desktop app** and the **Claude in Chrome** extension. Please make sure both are installed and active, then run this request from Claude Desktop."
 
 Do not attempt to tweet, navigate, or simulate any browser action without these tools.
 
